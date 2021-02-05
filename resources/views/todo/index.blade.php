@@ -32,43 +32,43 @@
                 </div>
             </div>
             <div class="col-md-8">
+                @if (session('status'))
+                    <div class="alert alert-success" role="alert">
+                        {{ session('status') }}
+                    </div>
+                @endif
                 <div class="card">
-                    <div class="card-header">User Management</div>
+                    <div class="card-header">Todo List <a class="btn btn-primary" href="{{route('todo.create')}}">Create</a></div>
 
                     <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
                         <table class="table">
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Email</th>
+                                <th scope="col">Todo</th>
+                                <th scope="col">Create Date</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($users as $user)
+                            @foreach($todoList as $todo)
                                 <tr>
 
-                                    <th scope="row">{{$user->id}}</th>
-                                    <td>{{$user->name}}</td>
-                                    <td>{{$user->email}}</td>
+                                    <th scope="row">{{$todo->id}}</th>
+                                    <td>{{$todo->name}}</td>
+                                    <td>{{$todo->created_at}}</td>
                                     <td>
-                                        <a class="btn btn-success" href="{{route('user.edit',$user->id)}}">Edit</a>
+                                        <a class="btn btn-success" href="{{route('todo.edit',$todo->id)}}">Edit</a>
 
                                     {{-- modal start--}}
                                     <!-- Button trigger modal -->
                                         <button type="button" class="btn btn-danger" data-toggle="modal"
-                                                data-target="#myModal{{$user->id}}">
+                                                data-target="#myModal{{$todo->id}}">
                                             Delete
                                         </button>
 
                                         <!-- Modal -->
-                                        <div class="modal fade" id="myModal{{$user->id}}" tabindex="-1"
+                                        <div class="modal fade" id="myModal{{$todo->id}}" tabindex="-1"
                                              aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -80,17 +80,17 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        Are you sure to delete ({{$user->name}})?
+                                                        Are you sure to delete ({{$todo->name}})?
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                                 data-dismiss="modal">Cancel
                                                         </button>
-                                                        <form action="{{route('user.delete',$user->id)}}" method="post">
+                                                        <form action="{{route('todo.destroy',$todo->id)}}" method="post">
                                                             {{ csrf_field()}}
                                                             {{ method_field('DELETE') }}
-                                                        <button type="submit" class="btn btn-primary">Confirmed
-                                                        </button>
+                                                            <button type="submit" class="btn btn-primary">Confirmed
+                                                            </button>
                                                         </form>
                                                     </div>
                                                 </div>

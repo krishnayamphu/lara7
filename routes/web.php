@@ -24,3 +24,5 @@ Route::get('/users', 'Users\UsersController@index')->name('user.index');
 Route::get('/users/{id}/edit','Users\UsersController@edit')->name("user.edit");
 Route::match(['put','patch'],'users/{id}','Users\UsersController@update')->name("user.update");
 Route::delete('users/{id}', 'Users\UsersController@destroy')->name('user.delete');
+
+Route::resource('/todo','TodoController');
